@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { searchUsers } from '../services/githubService';
+import { searchUsers, fetchUserData } from '../services/githubService';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -15,8 +15,10 @@ const Search = () => {
     setError(false);
 
     try {
-      const data = await searchUsers(query, location, minRepos);
-      setUsers(data.items);
+      await fetchUserData(query);
+
+const data = await searchUsers(query, location, minRepos);
+setUsers(data.items);
     } catch (err) {
       setError(true);
     } finally {
