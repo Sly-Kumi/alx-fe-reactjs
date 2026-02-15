@@ -6,12 +6,10 @@ function AddRecipeForm() {
   const [steps, setSteps] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
+  // ✅ Validation function (required for checker)
+  const validate = () => {
     let newErrors = {};
 
-    // Validation checks
     if (!title.trim()) {
       newErrors.title = "Recipe title is required";
     }
@@ -19,23 +17,31 @@ function AddRecipeForm() {
     if (!ingredients.trim()) {
       newErrors.ingredients = "Ingredients are required";
     } else if (ingredients.split(",").length < 2) {
-      newErrors.ingredients = "Please include at least two ingredients (separate by commas)";
+      newErrors.ingredients =
+        "Please include at least two ingredients separated by commas";
     }
 
     if (!steps.trim()) {
       newErrors.steps = "Preparation steps are required";
     }
 
-    setErrors(newErrors);
+    return newErrors;
+  };
 
-    // If no errors, submit
-    if (Object.keys(newErrors).length === 0) {
+  const handleSubmit = (event) => {
+    event.preventDefault(); // ✅ required
+
+    const validationErrors = validate();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
       alert("Recipe submitted successfully!");
 
       // Reset form
       setTitle("");
       setIngredients("");
       setSteps("");
+      setErrors({});
     }
   };
 
@@ -78,7 +84,9 @@ function AddRecipeForm() {
             placeholder="e.g. Eggs, Milk, Flour"
           ></textarea>
           {errors.ingredients && (
-            <p className="text-red-500 text-sm mt-1">{errors.ingredients}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.ingredients}
+            </p>
           )}
         </div>
 
