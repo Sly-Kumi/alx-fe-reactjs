@@ -1,5 +1,5 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import AddTodoForm from "./AddTodoForm";
 
 function TodoList() {
   const [todos, setTodos] = useState([
@@ -7,19 +7,13 @@ function TodoList() {
     { id: 2, text: "Write Tests", completed: false },
   ]);
 
-  const [input, setInput] = useState("");
-
-  const addTodo = () => {
-    if (!input.trim()) return;
-
+  const addTodo = (text) => {
     const newTodo = {
       id: Date.now(),
-      text: input,
+      text,
       completed: false,
     };
-
     setTodos([...todos, newTodo]);
-    setInput("");
   };
 
   const toggleTodo = (id) => {
@@ -40,12 +34,7 @@ function TodoList() {
     <div>
       <h1>Todo List</h1>
 
-      <input
-        placeholder="Add a todo"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={addTodo}>Add</button>
+      <AddTodoForm addTodo={addTodo} />
 
       <ul>
         {todos.map((todo) => (
