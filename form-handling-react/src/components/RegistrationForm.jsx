@@ -1,33 +1,23 @@
 import { useState } from "react";
 
 function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-  });
-
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const validate = () => {
     let newErrors = {};
 
-    if (!formData.username) {
+    if (!username) {
       newErrors.username = "Username is required";
     }
 
-    if (!formData.email) {
+    if (!email) {
       newErrors.email = "Email is required";
     }
 
-    if (!formData.password) {
+    if (!password) {
       newErrors.password = "Password is required";
     }
 
@@ -42,9 +32,11 @@ function RegistrationForm() {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      console.log("Form submitted:", formData);
+      console.log("Form submitted:", { username, email, password });
       alert("User registered successfully!");
-      setFormData({ username: "", email: "", password: "" });
+      setUsername("");
+      setEmail("");
+      setPassword("");
       setErrors({});
     }
   };
@@ -56,10 +48,9 @@ function RegistrationForm() {
       <div>
         <input
           type="text"
-          name="username"
           placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         {errors.username && <p>{errors.username}</p>}
       </div>
@@ -67,10 +58,9 @@ function RegistrationForm() {
       <div>
         <input
           type="email"
-          name="email"
           placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         {errors.email && <p>{errors.email}</p>}
       </div>
@@ -78,10 +68,9 @@ function RegistrationForm() {
       <div>
         <input
           type="password"
-          name="password"
           placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         {errors.password && <p>{errors.password}</p>}
       </div>
